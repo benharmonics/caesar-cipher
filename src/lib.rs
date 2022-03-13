@@ -22,6 +22,11 @@ impl Config {
             None => return Err("Usage: caesar_cipher {offset} {filename/string}"),
         };
 
+        if let Some(_) = args.next() {
+            println!("You may have meant to enclose a string in quotation marks. caesar_cipher takes exactly two arguments.");
+            println!("Example: caesar_cipher 13 \"multiple words\"");
+        }
+
         Ok(Config { offset, content })
     }
 }
