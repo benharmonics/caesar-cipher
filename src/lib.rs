@@ -35,8 +35,8 @@ pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
 
 // Caesar Cipher rotates all letters by a fixed number.
 // A common example would be a Rot13 cipher.
-fn caesar_cipher(contents: &str, n: u32) -> String {
-    contents
+fn caesar_cipher(content: &str, n: u32) -> String {
+    content
         .chars()
         .map(|c| c.to_ascii_lowercase() as u32 + n)     // increment ascii values by n
         .map(|d| if d > 122 { d - 26 } else { d })  // ASCII 'z' = 122
