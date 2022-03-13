@@ -38,9 +38,26 @@ pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
 fn caesar_cipher(content: &str, n: u32) -> String {
     content
         .chars()
-        .map(|c| c.to_ascii_lowercase() as u32 + n)     // increment ascii values by n
-        .map(|d| if d > 122 { d - 26 } else { d })  // ASCII 'z' = 122
-        .map(|d| if 97 <= d && d <= 122 { d } else { d - n })   // revert punctuation & spaces
-        .map(|d| char::from_u32(d).unwrap_or('?'))
+        .map(|c| c.to_ascii_lowercase()) 
+        .map(|c| if c.is_ascii_alphabetic() { 
+            let d = c as u32 + n;
+            if d > 122 { d - 26 } else { d }
+        } else {
+            c as u32
+        })
+        .map(|d| char::from_u32(d).unwrap())
         .collect::<String>()
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(String::from("uryyb"), super::caesar_cipher("hello", 13));
+    }
+
+    #[test]
+    fn it_works_with_punctuation() {
+        assert_eq!(String::from("uryyb! |~."), super::caesar_cipher("hello! |~.", 13));
+    }
 }
