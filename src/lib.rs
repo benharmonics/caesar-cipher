@@ -24,8 +24,8 @@ impl Config {
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
-    if let Ok(contents) = std::fs::read_to_string(&config.content) {
-        println!("{}", caesar_cipher(&contents, config.offset));
+    if let Ok(content) = std::fs::read_to_string(&config.content) {
+        println!("{}", caesar_cipher(&content, config.offset));
     } else {
         println!("{}", caesar_cipher(&config.content, config.offset));
     }
