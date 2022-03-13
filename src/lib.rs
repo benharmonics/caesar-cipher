@@ -1,23 +1,24 @@
 pub struct Config {
-    pub offset: u32,
-    pub content: String,
+    offset: u32,
+    content: String,
 }
 
 impl Config {
     pub fn new(mut args: std::env::Args) -> Result<Config, &'static str> {
         args.next();
 
-        let offset = match args.next() {
-            Some(arg) => arg.parse().unwrap_or(200),    // causes Err below (line 20); kind of hack-y...
+        let offset: u32 = match args.next() {
+            Some(arg) => match arg.parse::<u32>() {
+                Ok(n) => n % 26,
+                Err(_) => return Err("Offset must be a non-negative integer, typically from 1-25."),
+            }
             None => return Err("Usage: caesar_cipher {offset} {filename/string}"),
         };
 
-        let content = match args.next() {
+        let content: String = match args.next() {
             Some(arg) => arg,
             None => return Err("Usage: caesar_cipher {offset} {filename/string}"),
         };
-
-        if offset > 26 { return Err("Offset must be an integer in the range 0-26.") }
 
         Ok(Config { offset, content })
     }
