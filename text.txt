@@ -1,5 +1,0 @@
-This is a grand text file.
-Yes - it certainly is.
-It contains a secret message:
-Here it is!
-There it goes...
