@@ -1,5 +1,5 @@
 pub struct Config {
-    offset: u32,
+    offset: u8,
     content: String,
 }
 
@@ -9,8 +9,8 @@ impl Config {
         // offset: the amount each letter will be 'rotated' to the right using the caesar cipher function.
         // i.e. an offset of 3 would take the content "abc" and output "def".
         // Note that to decode a message that has been encoded with offset n, use a decoder offset of 26 - n.
-        let offset: u32 = match args.next() {
-            Some(arg) => match arg.parse::<u32>() {
+        let offset = match args.next() {
+            Some(arg) => match arg.parse::<u8>() {
                 Ok(n) => n % 26,    // Technically an offset of 27 should be equivalent to an offset of 1, for instance.
                 Err(_) => return Err("Offset must be a non-negative integer, typically from 1-25."),
             }
@@ -44,29 +44,38 @@ pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
 
 // Caesar Cipher rotates all letters by a fixed number n. You might know this as a RotN cipher?
 // A common example would be a Rot13 cipher. See mod tests below for examples.
-fn caesar_cipher(content: &str, n: u32) -> String {
-    content
+fn caesar_cipher(text: &str, shift: u8) -> String {
+    text
         .chars()
-        .map(|c| c.to_ascii_lowercase()) 
-        .map(|c| if c.is_ascii_alphabetic() { 
-            let d = c as u32 + n;           // apply RotN only to ascii alphabetic characters
-            if d > 122 { d - 26 } else { d }    // rotate values past z back to the beginning of the alphabet
-        } else {
-            c as u32    // if the u32 value of the char is less than 122, it's still a lowecase alphabetic char.
+        .map(|c| {
+            match c.is_ascii_alphabetic() {
+                true => {
+                    let first = if c.is_ascii_lowercase() { b'a' } else { b'A' };
+                    (first + (c as u8 + shift - first) % 26) as char
+                }
+                false => c
+            }
         })
-        .map(|d| char::from_u32(d).unwrap())
-        .collect::<String>()
+        .collect()
 }
 
 #[cfg(test)]
 mod tests {
+    use super::caesar_cipher;
+
     #[test]
     fn it_works() {
-        assert_eq!(String::from("uryyb"), super::caesar_cipher("hello", 13));
+        assert_eq!(String::from("uryyb"), caesar_cipher("hello", 13));
     }
 
     #[test]
     fn it_works_with_punctuation() {
-        assert_eq!(String::from("uryyb! |~."), super::caesar_cipher("hello! |~.", 13));
+        assert_eq!(String::from("uryyb! |~."), caesar_cipher("hello! |~.", 13));
     }
-}
+
+    #[test]
+    fn it_works_with_mixed_cases() {
+        let cipher = "iT wOrKs WiTh MiXeD cAsEs";
+        assert_eq!(String::from("jU xPsLt XjUi NjYfE dBtFt"), caesar_cipher(cipher, 1));
+    }
+} 
