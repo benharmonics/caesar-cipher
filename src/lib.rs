@@ -1,15 +1,14 @@
+use std::env::Args;
 use std::{fs, process};
 
 const PKG_NAME: &str = env!("CARGO_PKG_NAME");
 
-pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
+pub fn run(config: Config) {
     // Try to use config.content as a path to a text file; if that fails, treat it as a string in and of itself.
     match fs::read_to_string(&config.content) {
         Ok(content) => println!("{}", caesar_cipher(&content, config.offset)),
         Err(_) => println!("{}", caesar_cipher(&config.content, config.offset)),
     }
-
-    Ok(())
 }
 
 pub struct Config {
@@ -18,7 +17,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn from(args: std::env::Args) -> Result<Config, &'static str> {
+    pub fn from(args: Args) -> Config {
         let args: Vec<_> = args.collect();
         if args.contains(&"-h".to_string()) || args.contains(&"--help".to_string()) {
             print!("\x1b[1;96;127m{}\x1b[0m", PKG_NAME);
@@ -38,7 +37,7 @@ impl Config {
             println!("\x1b[1;96;127m\nEXAMPLES:\x1b[0m");
             println!("    {} 3 abc", PKG_NAME);
             println!("  output: def");
-            println!("    {} -d 3 abc", PKG_NAME);
+            println!("    {} -d 3 def", PKG_NAME);
             println!("  output: abc");
             process::exit(1);
         }
@@ -55,10 +54,12 @@ impl Config {
         // content: the content to be encoded by the caesar cipher. See mod tests below for examples.
         let content = args[1..]
             .iter()
-            .find_map(|s| (s.parse::<u8>().is_err() && !s.starts_with('-')).then(|| s.to_string()))
+            .find_map(|s| {
+                (s.parse::<u8>().is_err() && !s.starts_with('-')).then(|| String::from(s))
+            })
             .unwrap_or_default();
 
-        Ok(Config { offset, content })
+        Config { offset, content }
     }
 }
 
