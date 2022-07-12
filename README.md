@@ -1,4 +1,4 @@
-# caesar_cipher
+# caesar-cipher
 A simple Caesar Cipher encryption program
 
 Usage: `caesar_cipher [offset] <path/text>`
