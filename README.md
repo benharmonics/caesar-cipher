@@ -14,7 +14,7 @@ Note that non-alphabetic characters will not be updated and the string will not 
 
 ## Installation
 
-# Cargo
+### Cargo
 Cargo comes with Rust.
 
 Clone the repository into a local directory, then:
