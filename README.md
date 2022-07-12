@@ -8,7 +8,7 @@ For example, if `offset` is 3 and your text is "abc", then the encrypted message
 
 Typically, `offset` should be between 0 and 26. You can use a higher offset but if it can't be parsed, it'll just default to 13. If you don't enter an offset it'll also default to 13.
 
-The `path/text` argument should be either the path to a text file, or a string to be encoded. If there is a space in your string, be sure to enclose the string in quotationmarks ("").
+The `path/text` argument should be either the path to a text file, or a string to be encoded. If there is a space in your string, be sure to enclose the string in quotationmarks, i.e. `caesar_cipher 'spaces in this text'`.
 
 Note that non-alphabetic characters will not be updated and the string will not be reformatted, other than 'rotating' the letters.
 
