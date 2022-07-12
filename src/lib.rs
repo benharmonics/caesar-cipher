@@ -6,7 +6,7 @@ const PKG_NAME: &str = env!("CARGO_PKG_NAME");
 pub fn run(config: Config) {
     // Try to use config.content as a path to a text file; if that fails, treat it as a string in and of itself.
     match fs::read_to_string(&config.content) {
-        Ok(content) => println!("{}", caesar_cipher(&content, config.offset)),
+        Ok(content) => print!("{}", caesar_cipher(&content, config.offset)),
         Err(_) => println!("{}", caesar_cipher(&config.content, config.offset)),
     }
 }
