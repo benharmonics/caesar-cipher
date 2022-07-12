@@ -39,7 +39,7 @@ impl Config {
             println!("  output: def");
             println!("    {} -d 3 def", PKG_NAME);
             println!("  output: abc");
-            process::exit(1);
+            process::exit(0);
         }
         // offset: the amount each letter will be 'rotated' to the right using the caesar cipher function.
         // i.e. an offset of 3 would take the content "abc" and output "def".
@@ -58,6 +58,13 @@ impl Config {
                 (s.parse::<u8>().is_err() && !s.starts_with('-')).then(|| String::from(s))
             })
             .unwrap_or_default();
+        if content.is_empty() {
+            eprintln!(
+                "No input text detected.\nUse `{} --help` for help.",
+                PKG_NAME
+            );
+            process::exit(1);
+        }
 
         Config { offset, content }
     }
@@ -98,5 +105,13 @@ mod tests {
             String::from("jU xPsLt XjUi NjYfE dBtFt"),
             caesar_cipher(cipher, 1)
         );
+    }
+
+    #[test]
+    fn rotation_repeats_as_expected() {
+        let cipher = "cipher";
+        let rot1 = caesar_cipher(cipher, 1);
+        let rot27 = caesar_cipher(cipher, 27);
+        assert_eq!(rot1, rot27)
     }
 }
