@@ -1,7 +1,7 @@
 # caesar-cipher
 A simple Caesar Cipher encryption program
 
-Usage: `caesar_cipher [offset] <path/text>`
+Usage: `caesar-cipher [offset] <path/text>`
 
 The program takes two arguments, `offset`, which should be a non-negative integer less than 256, that will be used as the key which encrypts your text.
 For example, if `offset` is 3 and your text is "abc", then the encrypted message will be "def". If `offset` is 0 or 26 and your text is "abc", the encrypted message will be "abc".
@@ -19,5 +19,5 @@ Cargo comes with Rust.
 
 Clone the repository into a local directory, then:
 ```
-cargo install --path path/to/caesar_cipher
+cargo install --path path/to/caesar-cipher
 ```
