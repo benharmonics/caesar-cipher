@@ -44,11 +44,14 @@ impl Config {
         // offset: the amount each letter will be 'rotated' to the right using the caesar cipher function.
         // i.e. an offset of 3 would take the content "abc" and output "def".
         // Note that to decode a message that has been encoded with offset n, use a decoder offset of 26 - n.
-        let offset_input = args.iter().find_map(|s| s.parse::<u8>().ok()).unwrap_or(13);
+        let offset_input = args
+            .iter()
+            .find_map(|s| s.parse::<usize>().ok())
+            .unwrap_or(13);
         let offset = if args.contains(&"-d".to_string()) || args.contains(&"--decode".to_string()) {
-            26 - (offset_input % 26)
+            (26 - (offset_input % 26)) as u8
         } else {
-            offset_input
+            (offset_input % 26) as u8
         };
 
         // content: the content to be encoded by the caesar cipher. See mod tests below for examples.
