@@ -25,12 +25,14 @@ impl Config {
             println!("    author: benharmonics");
             println!("    https://github.com/benharmonics/caesar_cipher");
             println!("\x1b[1;96;127m\nUSAGE:\x1b[0m");
+            println!("  Optional argument: [offset]     Rotation offset; e.g. an offset of 1 lets 'a' → 'b', etc (default: 13)");
+            println!("  Required argument: <input>      Input text or path to a text file");
             println!("  Encode text from a file:");
-            println!("    {} [offset] <filename>", PKG_NAME);
+            println!("  $ {} [offset] <filename>", PKG_NAME);
             println!("  Encode a text string:");
-            println!("    {} [offset] <string>", PKG_NAME);
-            println!("  Enclose a string in quotes if it has spaces in it");
-            println!("    i.e. {} 'spaces in this string'", PKG_NAME);
+            println!("  $ {} [offset] <string>", PKG_NAME);
+            println!("  Enclose a string in quotes if it has spaces in it, i.e.:");
+            println!("  $ {} 'spaces in this string'", PKG_NAME);
             println!("\x1b[1;96;127m\nFLAGS:\x1b[0m");
             println!("  -d --decode   Decode a message with a known rotation");
             println!("  -h --help     Show help");
