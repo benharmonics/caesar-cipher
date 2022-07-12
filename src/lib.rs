@@ -21,24 +21,26 @@ impl Config {
         let args: Vec<_> = args.collect();
         if args.contains(&"-h".to_string()) || args.contains(&"--help".to_string()) {
             print!("\x1b[1;96;127m{}\x1b[0m", PKG_NAME);
-            println!(" - Encodes a string using a Caesar cipher");
+            println!(" - Encodes a message using a Caesar cipher");
             println!("    author: benharmonics");
             println!("    https://github.com/benharmonics/caesar_cipher");
             println!("\x1b[1;96;127m\nUSAGE:\x1b[0m");
-            println!("  Encode a file:");
-            println!("    {} <offset> <filename>", PKG_NAME);
-            println!("  Encode a string:");
-            println!("    {} <offset> <string>", PKG_NAME);
-            println!("  Enclose a string in quotes if it has spaces in it, i.e.:");
-            println!("    {} 'spaces in this string'", PKG_NAME);
+            println!("  Encode text from a file:");
+            println!("    {} [offset] <filename>", PKG_NAME);
+            println!("  Encode a text string:");
+            println!("    {} [offset] <string>", PKG_NAME);
+            println!("  Enclose a string in quotes if it has spaces in it");
+            println!("    i.e. {} 'spaces in this string'", PKG_NAME);
             println!("\x1b[1;96;127m\nFLAGS:\x1b[0m");
             println!("  -d --decode   Decode a message with a known rotation");
             println!("  -h --help     Show help");
             println!("\x1b[1;96;127m\nEXAMPLES:\x1b[0m");
-            println!("    {} 3 abc", PKG_NAME);
-            println!("  output: def");
-            println!("    {} -d 3 def", PKG_NAME);
-            println!("  output: abc");
+            println!("  $ {} 3 abc", PKG_NAME);
+            println!("    output: def");
+            println!("  $ {} -d 3 def", PKG_NAME);
+            println!("    output: abc");
+            println!("  $ {} 'hello world'", PKG_NAME);
+            println!("    output: uryyb jbeyq");
             process::exit(0);
         }
         // offset: the amount each letter will be 'rotated' to the right using the caesar cipher function.
